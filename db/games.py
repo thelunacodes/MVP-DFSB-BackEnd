@@ -12,7 +12,6 @@ class Game (Base):
     imageUrl = Column("image_url", String(2083))
     gameTitle = Column("game_title", String(50), nullable=False)
     developer = Column(String(50), nullable=False)
-    publisher = Column(String(50))
     platform = Column(String(30), nullable=False)
     gameUrl = Column("game_url", String(2083))
     startDate = Column("start_date", Date)
@@ -27,7 +26,6 @@ class Game (Base):
                  imageUrl:Union[str, None], 
                  gameTitle:str, 
                  developer:str,
-                 publisher:Union[str, None],
                  platform:str,
                  gameUrl:Union[str, None],  
                  startDate:Union[Date, None]=None,
@@ -42,7 +40,6 @@ class Game (Base):
             imageUrl (Optional[str]): Game image Url.
             gameTitle (str): Game's title.
             developer (str): Game's developer.
-            publisher (Optional[str]): Game's publisher.
             platform (String): Game's platform (e.g. Nintendo 64).
             gameUrl (Optional[str]): Game Url.
             startDate (Optional[date]): Date the user started the game.
@@ -53,8 +50,7 @@ class Game (Base):
         """
         self.imageUrl =  imageUrl or None
         self.gameTitle = gameTitle
-        self.developer = developer
-        self.publisher = publisher or None 
+        self.developer = developer 
         self.platform = platform
         self.gameUrl = gameUrl or None
         self.startDate = startDate 

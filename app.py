@@ -38,7 +38,6 @@ def add_game(form:GameSchema):
         imageUrl=form.imageUrl,
         gameTitle=form.gameTitle,
         developer=form.developer,
-        publisher=form.publisher,
         platform=form.platform,
         gameUrl=form.gameUrl,
         startDate=form.startDate,

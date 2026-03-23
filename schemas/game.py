@@ -12,7 +12,6 @@ class GameSchema(BaseModel):
     imageUrl:Optional[str] = "https://www.connetweb.com/wp-content/uploads/2021/06/canstockphoto22402523-arcos-creator.com_-1024x1024-1-600x600.jpg"
     gameTitle:str = "Game Name"
     developer:str = "Developer"
-    publisher:Optional[str] = "Publisher"
     platform:str = "Nintendo DS"
     gameUrl:Optional[str] = "https://www.google.com"
     startDate:Optional[date] = None
@@ -48,10 +47,10 @@ def show_games(games: List[Game]):
     result = []
     for game in games:
         result.append({
+            "id": game.id,
             "imageUrl":game.imageUrl,
             "gameTitle":game.gameTitle,
             "developer":game.developer,
-            "publisher":game.publisher,
             "platform":game.platform,
             "gameUrl":game.gameUrl,
             "startDate":game.startDate,
@@ -71,7 +70,6 @@ class GameViewSchema(BaseModel):
     imageUrl:Optional[str] = "https://www.connetweb.com/wp-content/uploads/2021/06/canstockphoto22402523-arcos-creator.com_-1024x1024-1-600x600.jpg"
     gameTitle:str = "Game Name"
     developer:str = "Developer"
-    publisher:Optional[str] = "Publisher"
     platform:str = "Nintendo DS"
     gameUrl:Optional[str] = "https://www.google.com"
     startDate:Optional[date] = None
@@ -99,7 +97,6 @@ def show_game(game:Game):
         "imageUrl":game.imageUrl,
         "gameTitle":game.gameTitle,
         "developer":game.developer,
-        "publisher":game.publisher,
         "platform":game.platform,
         "gameUrl":game.gameUrl,
         "startDate":game.startDate,
