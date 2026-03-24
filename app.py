@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask import redirect
 from urllib.parse import unquote
@@ -34,16 +36,24 @@ def add_game(form:GameSchema):
             dict: A representation of the newly added game.
     """
 
+    try:
+        start_date = datetime.strptime(form.startDate, "%Y-%m-%d").date() if form.startDate else None
+        start_time = datetime.strptime(form.startTime, "%H:%M").time() if form.startTime else None
+        finish_date = datetime.strptime(form.finishDate, "%Y-%m-%d").date() if form.finishDate else None
+        finish_time = datetime.strptime(form.finishTime, "%H:%M").time() if form.finishTime else None
+    except ValueError as ex:
+        return {"message": ex}
+
     game = Game(
         imageUrl=form.imageUrl,
         gameTitle=form.gameTitle,
         developer=form.developer,
         platform=form.platform,
         gameUrl=form.gameUrl,
-        startDate=form.startDate,
-        startTime=form.startTime,
-        finishDate=form.finishDate,
-        finishTime=form.finishTime,
+        startDate=start_date,
+        startTime=start_time,
+        finishDate=finish_date,
+        finishTime=finish_time,
         score=form.score
     )
 
