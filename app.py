@@ -37,10 +37,10 @@ def add_game(form:GameSchema):
     """
 
     try:
-        start_date = datetime.strptime(form.startDate, "%Y-%m-%d").date() if form.startDate else None
-        start_time = datetime.strptime(form.startTime, "%H:%M").time() if form.startTime else None
-        finish_date = datetime.strptime(form.finishDate, "%Y-%m-%d").date() if form.finishDate else None
-        finish_time = datetime.strptime(form.finishTime, "%H:%M").time() if form.finishTime else None
+        start_date = form.startDate
+        start_time = form.startTime
+        finish_date = form.finishDate
+        finish_time = form.finishTime
     except ValueError as ex:
         return {"message": ex}
 

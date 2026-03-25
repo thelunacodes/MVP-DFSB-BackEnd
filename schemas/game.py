@@ -9,16 +9,16 @@ class GameSchema(BaseModel):
     """ Defines how the registered game should be represented.
     """
 
-    imageUrl:Optional[str] = "https://www.connetweb.com/wp-content/uploads/2021/06/canstockphoto22402523-arcos-creator.com_-1024x1024-1-600x600.jpg"
-    gameTitle:str = "Game Name"
-    developer:str = "Developer"
-    platform:str = "Nintendo DS"
-    gameUrl:Optional[str] = "https://www.google.com"
-    startDate:Optional[date] = None
-    startTime:Optional[time] = None
-    finishDate:Optional[date] = None
-    finishTime:Optional[time] = None
-    score: Optional[float] = 5.0
+    imageUrl:Optional[str] = None
+    gameTitle:str 
+    developer:str 
+    platform:str 
+    gameUrl:Optional[str] = None
+    startDate:Optional[date] = None 
+    startTime:Optional[time] = None 
+    finishDate:Optional[date] = None 
+    finishTime:Optional[time] = None 
+    score: Optional[float] = None
 
 class GameDeletionSchema(BaseModel):
     """ Defines how the game deletion should be structured."""
@@ -53,10 +53,11 @@ def show_games(games: List[Game]):
             "developer":game.developer,
             "platform":game.platform,
             "gameUrl":game.gameUrl,
-            "startDate":game.startDate,
-            "startTime":game.startTime,
-            "finishDate":game.finishDate,
-            "finishTime":game.finishTime,
+            "gameUrl": game.gameUrl,
+        "startDate": game.startDate.isoformat() if game.startDate else None,
+        "startTime": game.startTime.strftime("%H:%M") if game.startTime else None,
+        "finishDate": game.finishDate.isoformat() if game.finishDate else None,
+        "finishTime": game.finishTime.strftime("%H:%M") if game.finishTime else None,
             "score":game.score,
         })
         
@@ -66,17 +67,17 @@ class GameViewSchema(BaseModel):
     """ Defines how the game data should be returned.
     """
 
-    id:int = 1
-    imageUrl:Optional[str] = "https://www.connetweb.com/wp-content/uploads/2021/06/canstockphoto22402523-arcos-creator.com_-1024x1024-1-600x600.jpg"
-    gameTitle:str = "Game Name"
-    developer:str = "Developer"
-    platform:str = "Nintendo DS"
-    gameUrl:Optional[str] = "https://www.google.com"
-    startDate:Optional[date] = None
-    startTime:Optional[time] = None
-    finishDate:Optional[date] = None
-    finishTime:Optional[time] = None
-    score: Optional[float] = 5.0
+    id:int 
+    imageUrl:Optional[str] 
+    gameTitle:str 
+    developer:str
+    platform:str 
+    gameUrl:Optional[str] 
+    startDate:Optional[date] 
+    startTime:Optional[time] 
+    finishDate:Optional[date] 
+    finishTime:Optional[time] 
+    score: Optional[float] 
 
 class GameDelSchema(BaseModel):
     """ Defines the structure of the data returned 
@@ -99,9 +100,10 @@ def show_game(game:Game):
         "developer":game.developer,
         "platform":game.platform,
         "gameUrl":game.gameUrl,
-        "startDate":game.startDate,
-        "startTime":game.startTime,
-        "finishDate":game.finishDate,
-        "finishTime":game.finishTime,
+        "gameUrl": game.gameUrl,
+        "startDate": game.startDate.isoformat() if game.startDate else None,
+        "startTime": game.startTime.strftime("%H:%M") if game.startTime else None,
+        "finishDate": game.finishDate.isoformat() if game.finishDate else None,
+        "finishTime": game.finishTime.strftime("%H:%M") if game.finishTime else None,
         "score":game.score,
     }

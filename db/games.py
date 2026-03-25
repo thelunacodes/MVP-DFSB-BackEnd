@@ -9,45 +9,45 @@ class Game (Base):
     __tablename__ = "game"
 
     id = Column("pk_id", Integer, primary_key=True)
-    imageUrl = Column("image_url", String(2083))
+    imageUrl = Column("image_url", String(2083), nullable=True)
     gameTitle = Column("game_title", String(50), nullable=False)
     developer = Column(String(50), nullable=False)
     platform = Column(String(30), nullable=False)
-    gameUrl = Column("game_url", String(2083))
-    startDate = Column("start_date", Date)
-    startTime = Column("start_time", Time)
-    finishDate = Column("finish_date", Date)
-    finishTime = Column("finish_time", Time)
-    score = Column(Float)
+    gameUrl = Column("game_url", String(2083), nullable=True)
+    startDate = Column("start_date", Date, nullable=True)
+    startTime = Column("start_time", Time, nullable=True)
+    finishDate = Column("finish_date", Date, nullable=True)
+    finishTime = Column("finish_time", Time, nullable=True)
+    score = Column(Float, nullable=True)
 
     # LEMBRETE: REVISAR TIPOS 
 
     def __init__(self, 
-                 imageUrl:Union[str, None], 
-                 gameTitle:str, 
-                 developer:str,
-                 platform:str,
-                 gameUrl:Union[str, None],  
-                 startDate:Union[Date, None]=None,
-                 startTime:Union[Time, None]=None,
-                 finishDate:Union[date, None]=None, 
-                 finishTime:Union[Time, None]=None,
-                 score:float=None):
-        
+                 imageUrl:Optional[String], 
+                 gameTitle:String, 
+                 developer:String,
+                 platform:String,
+                 gameUrl:Optional[String],  
+                 startDate:Optional[Date],
+                 startTime:Optional[Time],
+                 finishDate:Optional[Date], 
+                 finishTime:Optional[Time],
+                 score:Optional[Float]):
         """Adds a new game to the register.
 
         Args:
-            imageUrl (Optional[str]): Game image Url.
-            gameTitle (str): Game's title.
-            developer (str): Game's developer.
-            platform (String): Game's platform (e.g. Nintendo 64).
-            gameUrl (Optional[str]): Game Url.
-            startDate (Optional[date]): Date the user started the game.
-            startTime (Optional[time]): Time the user started the game.
-            finishDate (Optional[date]): Date the user finished the game.
-            finishTime (Optional[time]): Time the user finished the game.
-            score (Optional[float]): Score given by the user (0-5).
+            imageUrl (Optional[String]): Game image Url.
+            gameTitle (String): Game's title.
+            developer (String): Game's developer.
+            platform (String): Where the game has been played.
+            gameUrl (Optional[String]): Game URL.
+            startDate (Optional[Date]): Date the user started the game.
+            startTime (Optional[Time]): ime the user started the game.
+            finishDate (Optional[Date]):  Date the user finished the game.
+            finishTime (Optional[Time]): Time the user finished the game.
+            score (Optional[Float]): Score given by the user (0-5).
         """
+
         self.imageUrl =  imageUrl or None
         self.gameTitle = gameTitle
         self.developer = developer 
