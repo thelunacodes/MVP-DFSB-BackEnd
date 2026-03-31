@@ -35,25 +35,17 @@ def add_game(form:GameSchema):
         Returns:
             dict: A representation of the newly added game.
     """
-
-    try:
-        start_date = form.startDate
-        start_time = form.startTime
-        finish_date = form.finishDate
-        finish_time = form.finishTime
-    except ValueError as ex:
-        return {"message": ex}
-
+    
     game = Game(
         imageUrl=form.imageUrl,
         gameTitle=form.gameTitle,
         developer=form.developer,
         platform=form.platform,
         gameUrl=form.gameUrl,
-        startDate=start_date,
-        startTime=start_time,
-        finishDate=finish_date,
-        finishTime=finish_time,
+        startDate=form.startDate,
+        startTime=form.startTime,
+        finishDate=form.finishDate,
+        finishTime=form.finishTime,
         score=form.score
     )
 
@@ -97,26 +89,60 @@ def get_games():
     
 @app.get('/game', tags=[game_tag],
             responses={"200": GameViewSchema, "404": ErrorSchema})
-def get_game(query: GameSearchSchema):
-    """ Retrieves a game by its title. 
+def get_game(query: GameIdSearch):
+    """ Retrieves a game by its id. 
 
         Returns: 
             dict: The game representation, if found.
 
     """
-    gameTitle = query.gameTitle
-    logger.debug(f"Searching for '{gameTitle}'...")
+    gameId = query.id
+    logger.debug(f"Searching for '{gameId}'...")
 
     session = Session()
     
-    game = session.query(Game).filter(Game.gameTitle == gameTitle).first()
+    game = session.query(Game).filter(Game.id == gameId).first()
 
     if not game:
-        logger.warning(f"'{gameTitle}' was not found.")
-        return {"message": f"'{gameTitle}' was not found."}, 404
+        logger.warning(f"Game with ID {gameId} was not found.")
+        return {"message": "Couldn't fetch the game by its ID."}, 404
     else:
         logger.debug(f"Game found: '{game.gameTitle}'")
         return show_game(game), 200
+
+@app.put('/game', tags=[game_tag],
+         responses={"200": GameViewSchema, "404": ErrorSchema})
+def update_game(form: UpdateSchema):
+    """Updates a game by its ID.
+    """
+
+    gameId = form.id
+    logger.debug(f"Updating game with ID: {gameId}")
+
+    session = Session()
+    game = session.query(Game).filter(Game.id == gameId).first()
+
+    if not game:
+        return {"message": "Game not found"}, 404
+
+    try:
+        game.imageUrl = form.imageUrl
+        game.gameTitle = form.gameTitle
+        game.developer = form.developer
+        game.platform = form.platform
+        game.gameUrl = form.gameUrl
+        game.startDate = form.startDate
+        game.startTime = form.startTime
+        game.finishDate = form.finishDate
+        game.finishTime = form.finishTime
+        game.score = form.score
+
+        session.commit()
+        return show_game(game), 200
+    except Exception as ex:
+        logger.warning(f"Unable to update game: {ex}")
+        return {"message": str(ex)}, 400
+
 
 @app.delete('/game', tags=[game_tag],
             responses={"200": GameDelSchema, "404":ErrorSchema})

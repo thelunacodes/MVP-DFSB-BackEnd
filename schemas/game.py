@@ -20,17 +20,33 @@ class GameSchema(BaseModel):
     finishTime:Optional[time] = None 
     score: Optional[float] = None
 
+class UpdateSchema(BaseModel):
+    """ Defines how the updated game should be represented.
+    """
+
+    id:int 
+    imageUrl:Optional[str] = None
+    gameTitle:str 
+    developer:str 
+    platform:str 
+    gameUrl:Optional[str] = None
+    startDate:Optional[date] = None 
+    startTime:Optional[time] = None 
+    finishDate:Optional[date] = None 
+    finishTime:Optional[time] = None 
+    score: Optional[float] = None
+
 class GameDeletionSchema(BaseModel):
     """ Defines how the game deletion should be structured."""
 
     id:int = 1
     gameTitle:str = "Game Name"
 
-class GameSearchSchema(BaseModel):
-    """ Defines how the game search should be structured.
+class GameIdSearch(BaseModel):
+    """ Defines how the game id search should be structured.
     """
 
-    gameTitle:str = "Game Name"
+    id:int = 1
 
 class GameListingSchema(BaseModel):
     """ Defines how the game search result should be structured.
