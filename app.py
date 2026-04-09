@@ -29,7 +29,7 @@ def home():
     return redirect('/openapi')
 
 @app.post('/game', tags=[game_tag])
-def add_game(form:GameSchema):
+def add_game(body:GameSchema):
     """ Adds a new game to the database.
         
         Returns:
@@ -37,16 +37,16 @@ def add_game(form:GameSchema):
     """
     
     game = Game(
-        imageUrl=form.imageUrl,
-        gameTitle=form.gameTitle,
-        developer=form.developer,
-        platform=form.platform,
-        gameUrl=form.gameUrl,
-        startDate=form.startDate,
-        startTime=form.startTime,
-        finishDate=form.finishDate,
-        finishTime=form.finishTime,
-        score=form.score
+        imageUrl=body.imageUrl,
+        gameTitle=body.gameTitle,
+        developer=body.developer,
+        platform=body.platform,
+        gameUrl=body.gameUrl,
+        startDate=body.startDate,
+        startTime=body.startTime,
+        finishDate=body.finishDate,
+        finishTime=body.finishTime,
+        score=body.score
     )
 
     logger.debug(f"Adding a new game: '{game.gameTitle}'")
@@ -112,11 +112,11 @@ def get_game(query: GameIdSearch):
 
 @app.put('/game', tags=[game_tag],
          responses={"200": GameViewSchema, "404": ErrorSchema})
-def update_game(form: UpdateSchema):
+def update_game(body: UpdateSchema):
     """Updates a game by its ID.
     """
 
-    gameId = form.id
+    gameId = body.id
     logger.debug(f"Updating game with ID: {gameId}")
 
     session = Session()
@@ -126,16 +126,16 @@ def update_game(form: UpdateSchema):
         return {"message": "Game not found"}, 404
 
     try:
-        game.imageUrl = form.imageUrl
-        game.gameTitle = form.gameTitle
-        game.developer = form.developer
-        game.platform = form.platform
-        game.gameUrl = form.gameUrl
-        game.startDate = form.startDate
-        game.startTime = form.startTime
-        game.finishDate = form.finishDate
-        game.finishTime = form.finishTime
-        game.score = form.score
+        game.imageUrl = body.imageUrl
+        game.gameTitle = body.gameTitle
+        game.developer = body.developer
+        game.platform = body.platform
+        game.gameUrl = body.gameUrl
+        game.startDate = body.startDate
+        game.startTime = body.startTime
+        game.finishDate = body.finishDate
+        game.finishTime = body.finishTime
+        game.score = body.score
 
         session.commit()
         return show_game(game), 200
