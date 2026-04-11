@@ -154,15 +154,19 @@ def delete_game(query: GameDeletionSchema):
     """
 
     gameId = query.id
-    logger.debug(f"Deleting game: '{query.gameTitle}'")
-
     session = Session()
-    delGame = session.query(Game).filter(Game.id == gameId).delete()
+
+    game = session.query(Game).filter(Game.id == gameId).first()
+
+    if not game:
+        logger.warning(f"There's no game with id {gameId}")
+        return {"message": f"There's no game with id {gameId}"}, 404
+
+    gameTitle = game.gameTitle
+
+    session.delete(game)
     session.commit()
 
-    if delGame:
-        logger.debug(f"Game deleted successfuly: '{query.gameTitle}'")
-        return {"message": "Game deleted.", "gameTitle": query.gameTitle}, 200
-    else:
-        logger.warning(f"There's no game with id {query.id}")
-        return {"message": f"There's no game with id {query.id}"}, 404
+    logger.debug(f"Game deleted successfully: '{gameTitle}'")
+
+    return {"message": f"Game '{gameTitle}' deleted."}, 200

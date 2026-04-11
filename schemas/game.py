@@ -40,7 +40,6 @@ class GameDeletionSchema(BaseModel):
     """ Defines how the game deletion should be structured."""
 
     id:int = 1
-    gameTitle:str = "Game Name"
 
 class GameIdSearch(BaseModel):
     """ Defines how the game id search should be structured.
